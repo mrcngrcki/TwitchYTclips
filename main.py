@@ -1,5 +1,5 @@
 import userpaths
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, time
 from pyrfc3339 import generate
 import pytz
 from twitch import *
@@ -25,6 +25,7 @@ all_clips = []
 streamers = get_streamers_data('streamers.json')
 best_clips = get_top_clips(streamers, date_to_check, NUMBER_OF_TOP_CLIPS)
 downloaded_clips = download_clips(downloads_folder, best_clips)
-#upload_clips(downloaded_clips)
-
+time.sleep(5)
+upload_clips(downloaded_clips)
+time.sleep(5)
 delete_clips(downloads_folder)
