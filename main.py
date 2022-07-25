@@ -11,6 +11,8 @@ if not os.path.isdir(downloads_folder):
     print('Creating download folder')
     os.mkdir(downloads_folder)
 
+print(f'Download path: {downloads_folder}')
+
 # how many clips to download
 NUMBER_OF_TOP_CLIPS = 5
 
