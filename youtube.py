@@ -43,11 +43,13 @@ def upload_clips(clips: list):
     """Upload all downloaded clips"""
     for clip in clips:
         broadcaster_name = get_display_name(clip[0].broadcaster_name)
-
+        title = clip[0].title
+        if len(title) > 70:
+            title = title[:65]
         request_body = {
             'snippet': {
                 'categoryI': 22,
-                'title': f"{broadcaster_name} - {clip[0].title}",
+                'title': f"{broadcaster_name} - {title}",
                 'description': f"Daj suba po więcej\nhttps://twitch.tv/{clip[0].broadcaster_name}\n\n"
                                f"Pozdrawiam klubowiczów Harambe 7",
                 'tags': ["twitch", "shoty", "delord", "franio", "arquel", "klub r", "harambe", broadcaster_name]
