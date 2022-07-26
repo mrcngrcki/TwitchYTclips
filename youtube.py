@@ -1,5 +1,6 @@
 from Google import Create_Service
 from googleapiclient.http import MediaFileUpload
+import string
 
 CLIENT_SECRET_FILE = 'client_secrets.json'
 API_NAME = 'youtube'
@@ -42,29 +43,63 @@ def get_display_name(broadcaster_name: str) -> str:
 def upload_clips(clips: list):
     """Upload all downloaded clips"""
     for clip in clips:
-        broadcaster_name = get_display_name(clip[0].broadcaster_name)
-        title = clip[0].title
-        if len(title) > 70:
-            title = title[:65]
-        request_body = {
-            'snippet': {
-                'categoryI': 22,
-                'title': f"{broadcaster_name} - {title}",
-                'description': f"Daj suba po więcej\nhttps://twitch.tv/{clip[0].broadcaster_name}\n\n"
-                               f"Pozdrawiam klubowiczów Harambe 7",
-                'tags': ["twitch", "shoty", "delord", "franio", "arquel", "klub r", "harambe", broadcaster_name]
-            },
-            'status': {
-                'privacyStatus': 'public',
-                'selfDeclaredMadeForKids': False,
-            },
-            'notifySubscribers': False
-        }
+        try:
+            broadcaster_name = get_display_name(clip[0].broadcaster_name)
+            title = clip[0].title
+            if len(title) > 70:
+                title = title[:65]
+            request_body = {
+                'snippet': {
+                    'categoryI': 22,
+                    'title': f"{broadcaster_name} - {title}",
+                    'description': f"Daj suba po więcej\nhttps://twitch.tv/{clip[0].broadcaster_name}\n\n"
+                                   f"Pozdrawiam klubowiczów Harambe 7",
+                    'tags': ["twitch", "shoty", "delord", "franio", "arquel", "klub r", "harambe", broadcaster_name]
+                },
+                'status': {
+                    'privacyStatus': 'public',
+                    'selfDeclaredMadeForKids': False,
+                },
+                'notifySubscribers': False
+            }
 
-        media_file = MediaFileUpload(clip[1])
+            media_file = MediaFileUpload(clip[1])
 
-        response_upload = service.videos().insert(
-            part='snippet,status',
-            body=request_body,
-            media_body=media_file
-        ).execute()
+            response_upload = service.videos().insert(
+                part='snippet,status',
+                body=request_body,
+                media_body=media_file
+            ).execute()
+        except Exception as ex:
+            print(ex)
+            try:
+                broadcaster_name = get_display_name(clip[0].broadcaster_name)
+                title = clip[0].title
+                if len(title) > 70:
+                    title = title[:65]
+                    valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
+                    title = ''.join(char for char in title if char in valid_chars)
+                request_body = {
+                    'snippet': {
+                        'categoryI': 22,
+                        'title': f"{broadcaster_name} - {title}",
+                        'description': f"Daj suba po więcej\nhttps://twitch.tv/{clip[0].broadcaster_name}\n\n"
+                                       f"Pozdrawiam klubowiczów Harambe 7",
+                        'tags': ["twitch", "shoty", "delord", "franio", "arquel", "klub r", "harambe", broadcaster_name]
+                    },
+                    'status': {
+                        'privacyStatus': 'public',
+                        'selfDeclaredMadeForKids': False,
+                    },
+                    'notifySubscribers': False
+                }
+
+                media_file = MediaFileUpload(clip[1])
+
+                response_upload = service.videos().insert(
+                    part='snippet,status',
+                    body=request_body,
+                    media_body=media_file
+                ).execute()
+            except Exception as ex2:
+                print(ex)
