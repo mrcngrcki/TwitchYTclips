@@ -1,9 +1,10 @@
 import userpaths
-from datetime import timedelta, datetime, time
+from datetime import timedelta, datetime
 from pyrfc3339 import generate
 import pytz
 from twitch import *
 from youtube import *
+import time
 
 # create clips download path
 downloads_folder = os.path.join(userpaths.get_downloads(), "clips")
