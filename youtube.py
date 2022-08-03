@@ -59,7 +59,7 @@ def upload_clips(clips: list):
             request_body = {
                 'snippet': {
                     'categoryI': 22,
-                    'title': f"{broadcaster_name} - {title}",
+                    'title': title,
                     'description': f"Daj suba po więcej\nhttps://twitch.tv/{clip[0].broadcaster_name}\n\n"
                                    f"Pozdrawiam klubowiczów Harambe 7\n#shorts",
                     'tags': ["twitch", "shoty", "delord", "franio", "arquel", "klub r", "harambe", broadcaster_name]
