@@ -36,6 +36,10 @@ def get_display_name(broadcaster_name: str) -> str:
         broadcaster_name = 'Rafonix'
     elif broadcaster_name.lower() == 'majakstasko':
         broadcaster_name = 'Maja Staśko'
+    elif broadcaster_name.lower() == 'adamcy_':
+        broadcaster_name = 'Adamcy'
+    elif broadcaster_name.lower() == 'puniogaming':
+        broadcaster_name = 'Punio'
 
     return broadcaster_name
 
@@ -75,16 +79,20 @@ def upload_clips(clips: list):
             try:
                 broadcaster_name = get_display_name(clip[0].broadcaster_name)
                 title = clip[0].title
-                if len(title) > 70:
-                    title = title[:65]
+                title = f"{broadcaster_name} - {title}"
+                MAX_TITLE_LENGTH = 61
+                if len(title) > MAX_TITLE_LENGTH:
+                    title = title[:MAX_TITLE_LENGTH]
                     valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
                     title = ''.join(char for char in title if char in valid_chars)
+
+                title = title + " #shorts"
                 request_body = {
                     'snippet': {
                         'categoryI': 22,
-                        'title': f"{broadcaster_name} - {title}",
+                        'title': title,
                         'description': f"Daj suba po więcej\nhttps://twitch.tv/{clip[0].broadcaster_name}\n\n"
-                                       f"Pozdrawiam klubowiczów Harambe 7",
+                                       f"Pozdrawiam klubowiczów Harambe 7\n#shorts",
                         'tags': ["twitch", "shoty", "delord", "franio", "arquel", "klub r", "harambe", broadcaster_name]
                     },
                     'status': {
